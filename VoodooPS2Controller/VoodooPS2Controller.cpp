@@ -1216,14 +1216,15 @@ hardware_offline:
 
   // Invoke the completion routine, if one was supplied.
 
-  if (request->completionTarget && request->completionAction)
+  if (request->completionTarget != kStackCompletionTarget && request->completionTarget && request->completionAction)
   {
     (*request->completionAction)(request->completionTarget,
                                  request->completionParam);
   }
   else
   {
-    freeRequest(request);
+    if (request->completionTarget != kStackCompletionTarget)
+        freeRequest(request);
   }
 }
 
